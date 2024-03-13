@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import {
   Card,
@@ -10,16 +9,16 @@ import {
   Button,
   InputBase,
 } from "@mui/material";
-
-interface Pokemon {
-  name: string;
-  sprites: {
-    front_default: string;
-  };
-}
-
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
+import usePokemonData from "../API/usePokemonData";
+
+// interface Pokemon {
+//   name: string;
+//   sprites: {
+//     front_default: string;
+//   };
+// }
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -51,7 +50,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: "100%",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     [theme.breakpoints.up("sm")]: {
@@ -64,44 +62,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const PokemonList: React.FC = () => {
-  const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const itemsPerPage = 6;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let allPokemon: Pokemon[] = [];
-        let nextUrl = "https://pokeapi.co/api/v2/pokemon";
-
-        // Fetch all pages of data
-        while (nextUrl) {
-          const response = await axios.get<{
-            results: { name: string; url: string }[];
-            next: string;
-          }>(nextUrl);
-          const pokemons = response.data.results;
-
-          // Fetch details for each pokemon
-          const pokemonDetailsPromises = pokemons.map(async (pokemon) => {
-            const detailsResponse = await axios.get<Pokemon>(pokemon.url);
-            return detailsResponse.data;
-          });
-
-          const pokemonDetails = await Promise.all(pokemonDetailsPromises);
-          allPokemon = [...allPokemon, ...pokemonDetails];
-          nextUrl = response.data.next;
-        }
-
-        setPokemonData(allPokemon);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const pokemonData = usePokemonData();
 
   const handleClickNext = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -120,7 +85,6 @@ const PokemonList: React.FC = () => {
 
   return (
     <Router>
-      {" "}
       <>
         <Stack sx={{ py: "10px", display: "flex", alignItems: "center" }}>
           <Search
