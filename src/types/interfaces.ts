@@ -25,6 +25,7 @@ interface NavStyle {
   search: SxProps<Theme>;
   searchIconWrapper: SxProps<Theme>;
   styledInputBase: SxProps<Theme>;
+  SearchIcon: SxProps<Theme>;
 }
 
 export interface NavStyles {

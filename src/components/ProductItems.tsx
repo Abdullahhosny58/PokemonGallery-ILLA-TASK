@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from "react";
+import { FC, useContext, useState } from "react"; // Import necessary modules from React
 import {
   Card,
   CardContent,
@@ -7,94 +7,79 @@ import {
   Typography,
   Button,
   Skeleton,
-} from "@mui/material";
+} from "@mui/material"; // Import necessary components from Material-UI
 
-import { useNavigate } from "react-router-dom";
-import { stackStyle } from "./style";
-import { PokmensContext } from "../context/pokemonContext";
+import { useNavigate } from "react-router-dom"; // Import useNavigate hook from react-router-dom
+import {
+  cardStyle,
+  cardMediaStyle,
+  typographyStyle,
+  buttonStyle,
+} from "./style/ProductItemsStyle"; // Import styles for the component
+import { PokmensContext } from "../context/pokemonContext"; // Import Pokemon context
 
 const PokemonList: FC = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const itemsPerPage = 6;
+  // State variables
+  const [currentPage, setCurrentPage] = useState(0); // State for current page number
+  const itemsPerPage = 6; // Number of items per page
 
-  const navigate = useNavigate();
+  // Hooks
+  const navigate = useNavigate(); // Navigate function from react-router-dom
+  const { pokemonData } = useContext(PokmensContext); // Get Pokemon data from context
 
-  // const { pokemonData } = usePokemonData();
-
-  const { pokemonData } = useContext(PokmensContext);
-
+  // Function to handle next page click
   const handleClickNext = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
+  // Function to handle previous page click
   const handleClickPrevious = () => {
     setCurrentPage((prevPage) => prevPage - 1);
   };
 
+  // Calculate start and end index for pagination
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const filteredPokemon = pokemonData.filter((pokemon) =>
-    pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-  // const visiblePokemon = filteredPokemon.slice(startIndex, endIndex);
-  // console.log("pokemonData", pokemonData);
+
+  // Get visible Pokemon based on pagination
+  const visiblePokemon = pokemonData.slice(startIndex, endIndex);
 
   return (
     <>
-      <Stack sx={stackStyle}></Stack>
-      {/* Conditionally render the loading skeleton or Pokémon list */}
+      {/* Render Pokemon cards or skeleton loading */}
       {pokemonData.length > 0 ? (
-        // Data has been loaded, render Pokémon list
-        <Stack
-          direction={"row"}
-          flexWrap={"wrap"}
-          justifyContent={"space-between"}
-        >
-          {pokemonData.map((pokemon) => (
+        <Stack direction="row" flexWrap="wrap" justifyContent="space-between">
+          {visiblePokemon.map((pokemon) => (
             <Card
-              sx={{
-                cursor: "pointer",
-                maxWidth: 333,
-                mt: 6,
-                ":hover .MuiCardMedia-root ": {
-                  rotate: "1deg",
-                  scale: "1.1",
-                  transition: "0.35s",
-                },
-              }}
+              key={pokemon.name}
+              sx={{ ...cardStyle }} // Apply card style
               onClick={() => {
-                navigate(`/pokemon/${pokemon.name}`);
+                navigate(`/pokemon/${pokemon.name}`); // Navigate to Pokemon details page
               }}
             >
               <CardMedia
-                sx={{ height: 277 }}
-                image={pokemon.sprites.front_default}
-                title={pokemon.name}
+                sx={{ ...cardMediaStyle }} // Apply card media style
+                image={pokemon.sprites.front_default} // Set image URL
+                title={pokemon.name} // Set image title
               />
               <CardContent>
                 <Typography
                   variant="h5"
                   component="div"
-                  sx={{ textDecoration: "none" }}
+                  sx={{ ...typographyStyle }} // Apply typography style
                 >
-                  {pokemon.name}
+                  {pokemon.name} {/* Render Pokemon name */}
                 </Typography>
-                <Typography sx={{ textDecoration: "none" }}>
-                  Lizards are a widespread group of squamate reptiles, with over
-                  6,000 species, ranging across all continents except Antarctica
+                <Typography sx={{ ...typographyStyle }}>
+                  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                 </Typography>
               </CardContent>
             </Card>
           ))}
         </Stack>
       ) : (
-        // Data is still loading, render loading skeleton
-        <Stack
-          direction={"row"}
-          flexWrap={"wrap"}
-          justifyContent={"space-between"}
-        >
+        // Render skeleton loading when data is not available
+        <Stack direction="row" flexWrap="wrap" justifyContent="space-between">
           {[...Array(itemsPerPage)].map((_, index) => (
             <Skeleton
               key={index}
@@ -108,6 +93,7 @@ const PokemonList: FC = () => {
           ))}
         </Stack>
       )}
+
       {/* Pagination buttons */}
       <Stack
         sx={{
@@ -116,39 +102,23 @@ const PokemonList: FC = () => {
           alignItems: "center",
           py: "20px",
           justifyItems: "center",
-          // px: "500px",
-          // px: { xs: 100, lg: "50px" },
         }}
       >
+        {/* Previous button */}
         <Button
-          disabled={currentPage === 0}
-          onClick={handleClickPrevious}
+          disabled={currentPage === 0} // Disable button if on the first page
+          onClick={handleClickPrevious} // Handle click event
           variant="contained"
-          sx={{
-            mt: 2,
-            ml: 2,
-            display: "flex",
-            bgcolor: "#c93734",
-            ":hover": {
-              bgcolor: "#db3d3a",
-            },
-          }}
+          sx={{ ...buttonStyle }} // Apply button style
         >
           Previous
         </Button>
+        {/* Next button */}
         <Button
-          disabled={endIndex >= filteredPokemon.length}
-          onClick={handleClickNext}
+          disabled={endIndex >= pokemonData.length} // Disable button if on the last page
+          onClick={handleClickNext} // Handle click event
           variant="contained"
-          sx={{
-            mt: 2,
-            ml: 2,
-
-            bgcolor: "#c93734",
-            ":hover": {
-              bgcolor: "#db3d3a",
-            },
-          }}
+          sx={{ ...buttonStyle }} // Apply button style
         >
           Next
         </Button>
@@ -157,4 +127,4 @@ const PokemonList: FC = () => {
   );
 };
 
-export default PokemonList;
+export default PokemonList; // Export PokemonList component

@@ -1,4 +1,4 @@
-import NavStyle from "../types/interfaces";
+import NavStyle from "../../types/interfaces";
 
 export const navStyle: NavStyle = {
   flexGrow: {
@@ -47,6 +47,7 @@ export const navStyle: NavStyle = {
       width: "auto",
     },
   },
+  SearchIcon: { color: "#fff", width: { xs: "15px", md: "20px", lg: "30px" } },
   searchIconWrapper: {
     padding: "spacing(0, 2)",
     height: "100%",

@@ -1,7 +1,5 @@
-import React, { FC, useState } from "react";
-import "../";
-
-import { useParams } from "react-router-dom";
+import React, { FC, useState } from "react"; // Import React and useState from react
+import { useParams } from "react-router-dom"; // Import useParams hook from react-router-dom
 import {
   Button,
   CardMedia,
@@ -9,20 +7,20 @@ import {
   Typography,
   List,
   ListItem,
-} from "@mui/material";
-import Skeleton from "@mui/material/Skeleton";
-import { motion } from "framer-motion";
+} from "@mui/material"; // Import necessary components from Material-UI
+import Skeleton from "@mui/material/Skeleton"; // Import Skeleton component from Material-UI
+import { motion } from "framer-motion"; // Import motion from framer-motion
 
-import { ButtonData } from "../types/interfaces";
-import { Link } from "react-router-dom";
-import pokemonDetailsStyle from "./pokemonDetailsStyle";
-import useFetchPokemonDetails from "../hooks/useFetchPokemonDetails";
+import { ButtonData } from "../types/interfaces"; // Import ButtonData interface from interfaces file
+import { Link } from "react-router-dom"; // Import Link component from react-router-dom
+import pokemonDetailsStyle from "./style/pokemonDetailsStyle"; // Import styles for PokemonDetails component
+import useFetchPokemonDetails from "../hooks/useFetchPokemonDetails"; // Import custom hook for fetching Pokemon details
 
 const PokemonDetails: FC = () => {
-  const [displayType, setDisplayType] = useState("stats");
-  const [movesLimit, setMovesLimit] = useState(10);
-  const { pokemonId } = useParams<{ pokemonId: string }>();
-  const [pokemon, loading] = useFetchPokemonDetails(pokemonId);
+  const [displayType, setDisplayType] = useState("stats"); // State for displaying different types of Pokemon details
+  const [movesLimit, setMovesLimit] = useState(10); // State for limiting the number of displayed moves
+  const { pokemonId } = useParams<{ pokemonId: string }>(); // Get the Pokemon ID from URL params
+  const [pokemon, loading] = useFetchPokemonDetails(pokemonId); // Fetch Pokemon details using custom hook
 
   // If data is being loaded
   if (loading) {
@@ -32,6 +30,7 @@ const PokemonDetails: FC = () => {
           <Skeleton variant="rectangular" width={277} height={277} />
         </Grid>
         <Grid item xs={12} sm={6}>
+          {/* Display skeleton loading animation */}
           <Skeleton animation="wave" width="80%" height={40} />
           <Skeleton animation="wave" width="40%" height={20} />
           <Skeleton animation="wave" width="80%" height={40} />
@@ -45,14 +44,17 @@ const PokemonDetails: FC = () => {
   // If there is no data
   if (!pokemon) return <div>No Pokemon found</div>;
 
+  // Function to handle button click and switch display type
   const handleButtonClick = (type: string) => {
     setDisplayType(type);
   };
 
+  // Function to handle "Show More" button click and increase moves limit
   const handleShowMoreMoves = () => {
     setMovesLimit(movesLimit + 10);
   };
 
+  // Array of buttons with their labels and types
   const buttons: ButtonData[] = [
     { label: "Stats", type: "stats" },
     { label: "Moves", type: "moves" },
@@ -71,6 +73,7 @@ const PokemonDetails: FC = () => {
           Back
         </Button>
 
+        {/* Display Pokemon image */}
         <CardMedia
           sx={pokemonDetailsStyle.cardMedia}
           image={pokemon.sprites.front_default}
@@ -78,12 +81,15 @@ const PokemonDetails: FC = () => {
         />
       </Grid>
       <Grid item xs={12} sm={6}>
+        {/* Display Pokemon name and types */}
         <Typography variant="h2">{pokemon.name}</Typography>
         <List sx={{ display: "flex", flexDirection: "row" }}>
           {pokemon.types.map((type, index) => (
             <ListItem key={index}>{type.type.name}</ListItem>
           ))}
         </List>
+
+        {/* Display buttons for different types of details */}
         <Grid container spacing={2}>
           {buttons.map((button, index) => (
             <Grid item key={index}>
@@ -97,12 +103,15 @@ const PokemonDetails: FC = () => {
             </Grid>
           ))}
         </Grid>
+
+        {/* Display Pokemon details based on selected type */}
         {displayType === "stats" && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
+            {/* Display Pokemon stats */}
             <List>
               {pokemon.stats.map((stat, index) => (
                 <ListItem key={index}>
@@ -114,6 +123,8 @@ const PokemonDetails: FC = () => {
             </List>
           </motion.div>
         )}
+
+        {/* Display Pokemon moves */}
         {displayType === "moves" && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -127,6 +138,8 @@ const PokemonDetails: FC = () => {
                 </ListItem>
               ))}
             </List>
+
+            {/* Display "Show More" button if there are more moves */}
             {movesLimit < pokemon.moves.length && (
               <Button
                 sx={pokemonDetailsStyle.backButton}
@@ -137,6 +150,8 @@ const PokemonDetails: FC = () => {
             )}
           </motion.div>
         )}
+
+        {/* Display Pokemon abilities */}
         {displayType === "abilities" && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -159,4 +174,4 @@ const PokemonDetails: FC = () => {
   );
 };
 
-export default PokemonDetails;
+export default PokemonDetails; // Export PokemonDetails component

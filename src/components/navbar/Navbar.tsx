@@ -1,16 +1,16 @@
-import "../index.css";
 import { styled, alpha, CSSObject } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
-import usePokemonData from "../hooks/usePokemonData";
-import "../App.css";
-import Logo from "../../public/image/pokeapi_256.3fa72200.png";
-import { CSSProperties } from "react";
+import "../../index.css"; // Importing global styles
+import Logo from "../../../public/image/pokeapi_256.3fa72200.png"; // Importing logo image
+import { CSSProperties, useContext } from "react"; // Importing necessary dependencies
 
-import { Box, Container, InputBase, Stack, Typography } from "@mui/material";
-import { navStyle } from "./navStyle";
+import { Box, Container, InputBase, Stack, Typography } from "@mui/material"; // Importing MUI components
+import { navStyle } from "./navStyle"; // Importing styles for the navbar
 
-import AppBar from "@mui/material/AppBar";
+import AppBar from "@mui/material/AppBar"; // Importing AppBar component
+import { PokmensContext } from "../../context/pokemonContext"; // Importing Pokemon context
 
+// Styling the search bar container
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -26,6 +26,7 @@ const Search = styled("div")(({ theme }) => ({
   },
 }));
 
+// Styling for the search icon wrapper
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: "100%",
@@ -36,12 +37,12 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
 }));
 
+// Styling for the input base
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   width: "100%",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     [theme.breakpoints.up("sm")]: {
@@ -53,17 +54,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+// Navbar component
 const Navbar = () => {
-  const { handleSearchValue } = usePokemonData();
+  // Accessing search value from Pokemon context
+  const { handleSearchValue } = useContext(PokmensContext);
 
   return (
     <Box sx={navStyle.flexGrow}>
       <AppBar position="static" sx={navStyle.appBar}>
         <Container sx={navStyle.container}>
-          {/* left side */}
+          {/* Left side of the navbar */}
           <Stack sx={navStyle.leftSide}>
             <Box>
-              {" "}
               <img
                 style={navStyle.logo as CSSProperties}
                 src={Logo}
@@ -74,20 +76,15 @@ const Navbar = () => {
               Pokemon Gallery
             </Typography>
           </Stack>
-          {/* right side */}
+          {/* Right side of the navbar */}
           <Search
             onChange={(e) => {
-              handleSearchValue((e.target as any).value);
+              handleSearchValue((e.target as HTMLInputElement).value);
             }}
             sx={navStyle.search as CSSObject}
           >
             <SearchIconWrapper sx={navStyle.searchIconWrapper as CSSObject}>
-              <SearchIcon
-                sx={{
-                  color: "#fff",
-                  width: { xs: "15px", md: "20px", lg: "30px" },
-                }}
-              />
+              <SearchIcon sx={navStyle.SearchIcon} />
             </SearchIconWrapper>
             <StyledInputBase
               sx={navStyle.styledInputBase as CSSObject}
