@@ -18,7 +18,6 @@ function App() {
         <Routes>
           <Route path="/" element={<PokemonList />} />
           <Route path="*" element={<NotFoundPage />} />
-
           <Route path="/pokemon/:pokemonId" element={<PokemonDetails />} />
         </Routes>
       </BrowserRouter>

@@ -1,5 +1,3 @@
-// في ملف ProductItemsStyle.ts
-
 export const cardStyle = {
   cursor: "pointer",
   maxWidth: 333,

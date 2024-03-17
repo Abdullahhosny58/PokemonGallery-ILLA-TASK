@@ -8,6 +8,7 @@ export interface Pokemon {
   moves: { move: { name: string } }[];
   stats: { base_stat: number; stat: { name: string } }[];
   sprites: { front_default: string };
+  description: string;
 }
 
 export interface ButtonData {
