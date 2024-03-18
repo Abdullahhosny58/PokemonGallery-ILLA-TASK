@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useContext } from "react";
+import { ChangeEvent, useContext } from "react";
 import { styled, alpha, CSSObject } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import "../../index.css"; // Importing global styles
