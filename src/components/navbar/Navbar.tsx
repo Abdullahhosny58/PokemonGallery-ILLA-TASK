@@ -10,6 +10,7 @@ import { navStyle } from "./navStyle"; // Importing styles for the navbar
 
 import AppBar from "@mui/material/AppBar"; // Importing AppBar component
 import { PokmensContext } from "../../context/pokemonContext"; // Importing Pokemon context
+import { Link } from "react-router-dom";
 
 // Styling the search bar container
 const Search = styled("div")(({ theme }) => ({
@@ -72,11 +73,13 @@ const Navbar = () => {
           {/* Left side of the navbar */}
           <Stack sx={navStyle.leftSide}>
             <Box>
-              <img
-                style={navStyle.logo as CSSProperties}
-                src={Logo}
-                alt="Logo"
-              />
+              <Link to="/">
+                <img
+                  style={navStyle.logo as CSSProperties}
+                  src={Logo}
+                  alt="Logo"
+                />
+              </Link>
             </Box>
             <Typography sx={navStyle.typography} variant="body2">
               Pokemon Gallery
