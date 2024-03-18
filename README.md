@@ -1,30 +1,45 @@
-# React + TypeScript + Vite
+## Frontend challenge
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+simple pokemon list, pokemon details , pokemon search project written in react, typescript.
 
-Currently, two official plugins are available:
+## Deployed App
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Open [https://pokemon-gallery-opal.vercel.app/](https://pokemon-gallery-opal.vercel.app/) to view deployed app in the browser.
 
-## Expanding the ESLint configuration
+## Running Instructions
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+In the project directory, you can run:
 
-- Configure the top-level `parserOptions` property like this:
+### `npm install`
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+Installs node modules
+
+### `npm run dev`
+
+Runs the app in the development mode.\
+Open [http://localhost:5173/]( http://localhost:5173/) to view homePage it in the browser.
+
+## Project Structure
+
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+
+## Libraries used
+
+-   react
+-   react-router
+-   typscript
+-   axios
+-   material-ui
+-   framer motion
+
+## Formater
+
+-   prettier
+
+## Improvments
+
+-   Make it responsive!
+-   Add workflow using github actions to automate deploy process
+-   Tests
