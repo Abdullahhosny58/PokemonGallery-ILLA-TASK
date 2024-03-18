@@ -1,8 +1,9 @@
+import React, { ChangeEvent, useContext } from "react";
 import { styled, alpha, CSSObject } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import "../../index.css"; // Importing global styles
 import Logo from "../../../public/image/pokeapi_256.3fa72200.png"; // Importing logo image
-import { CSSProperties, useContext } from "react"; // Importing necessary dependencies
+import { CSSProperties } from "react"; // Importing necessary dependencies
 
 import { Box, Container, InputBase, Stack, Typography } from "@mui/material"; // Importing MUI components
 import { navStyle } from "./navStyle"; // Importing styles for the navbar
@@ -59,6 +60,11 @@ const Navbar = () => {
   // Accessing search value from Pokemon context
   const { handleSearchValue } = useContext(PokmensContext);
 
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value.toLowerCase(); // Convert input value to lowercase
+    handleSearchValue(inputValue); // Update search value in context
+  };
+
   return (
     <Box sx={navStyle.flexGrow}>
       <AppBar position="static" sx={navStyle.appBar}>
@@ -78,9 +84,7 @@ const Navbar = () => {
           </Stack>
           {/* Right side of the navbar */}
           <Search
-            onChange={(e) => {
-              handleSearchValue((e.target as HTMLInputElement).value);
-            }}
+            onChange={handleInputChange}
             sx={navStyle.search as CSSObject}
           >
             <SearchIconWrapper sx={navStyle.searchIconWrapper as CSSObject}>
